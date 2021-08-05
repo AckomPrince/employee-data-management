@@ -1,0 +1,96 @@
+{% load static  %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- BOOTSTRAP CSS -->
+  <link rel="stylesheet" href="{% static './dist/plugins/bootstrap/css/bootstrap.css' %}">
+
+
+  <!-- FONTAWESOME CSS -->
+  <link rel="stylesheet" href="{% static './dist/plugins/font-awesome/css/font-awesome.css' %}">
+
+  <!-- CUSTOM CSS -->
+  <link rel="stylesheet" href="{% static './dist/custom/css/main.css' %}">
+
+  <!-- JQUERY JS -->
+  <script src="{% static './dist/plugins/jquery/jquery.3.2.1.min.js' %}"></script>
+
+  <!-- JAVASCRIPT JS -->
+  <script src="{% static './dist/custom/js/main.js' %}"></script>
+
+  <title>Employee | </title>
+</head>
+<body>
+  <header class="header shadow py-4">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="logo">
+          <a href="" class="">
+            <i class="fa fa-cloud"></i>Employee Data Collation App
+          </a>
+        </div>
+        <div class="header__right d-flex align-items-center gap-2">
+          <p class='text-multi text-center'><small>{{ request.user.username }}</small><br/></p>
+          <div class="icon" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Logout">
+            <a href="{% url 'account:auth_logout' %}" class='link-unstyled'>
+              <i class="fa fa-sign-out"></i> logout
+            </a>
+          </div>
+        
+        </div>
+      </div>
+    </div>
+  </header>
+  <section class="main">
+    <div class="main__sidebar px-4">
+      <div class="card bg__primary card__holder border-0 shadow px-4 py-3">
+        <p class="text-multi">
+          <small>Dashboard</small>
+          <br />
+         
+        </p>
+      </div>
+      <ul class='list-unstyled custom-nav'>
+        <li class="custom-nav__link">
+          <a href="{% url 'employee:dashboard' %}" class=""><label for=""><i class="fa fa-windows"></i> Dashboard</label></a>
+        </li>
+        <li class="custom-nav__link">
+          <a href="{% url 'employee:add_employee' %}" class=""><label for=""><i class="fa fa-user"></i> Employee</label></a>
+        </li>
+        <li class="custom-nav__link">
+          <a href="{% url 'employee:all_employees' %}" class=""><label for=""><i class="fa fa-th-large"></i> All Employees</label></a>
+        </li>
+        <li class="custom-nav__link">
+          <a href="{% url 'employee:logs' %}" class=""><label for=""><i class="fa fa-tags"></i> Logs</label></a>
+        </li>
+        <!-- <li class="custom-nav__link">
+          <a href="" class=""><label for=""><i class="fa fa-braille"></i> All services</label></a>
+        </li>
+        <li class="custom-nav__link">
+          <a href="" class=""><label for=""><i class="fa fa-database"></i> Transactions</label></a>
+        </li> -->
+      </ul>
+    </div>
+    <div class="main__body">
+      <div class="container">
+
+        {% block Content %}
+        
+        {% endblock Content %}
+        
+        {% block Notification %}
+          
+        {% endblock Notification %}
+
+        
+      </div><!-- /Container -->
+    </div>
+  </section>
+  {% block Script %}
+    
+  {% endblock Script %}
+</body>
+</html>

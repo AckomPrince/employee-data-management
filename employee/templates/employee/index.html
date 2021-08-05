@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+
+
+{% block Content %}
+
+  <div class="heading">
+    <p class="">
+      Employee
+    </p>
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-lg-6 ">
+      <form action="" method='POST' class="forms" id="employee_form_creation">
+        {% csrf_token %}
+        {{forms.as_p}}
+        <button class="btn btn-outline-primary mt-2">Submit</button>
+      </form>
+    </div>
+  </div>
+
+
+
+
+{% endblock Content %}
+
+{% block Notification %}
+  {% if success %}
+  <div class="notifier notifier-success active" id='notifier-1'>
+    <div class="icon_box notifier__icon">
+      <i class="fa fa-bullhorn"></i>
+    </div>
+    <p class='small notifier__text'>
+      Employee Added successfully
+    </p>
+  </div>
+  {% endif %}
+{% endblock Notification %}
+
+{% block Script %}
+  
+<script>
+
+$('document').ready(function(){
+  $('.forms p input').addClass('form-control')
+  $('.forms p select').addClass('form-control')
+  $(".forms p input[name^='date']").attr('type', 'date')
+
+  if(document.getElementById('notifier-1') != null){
+    setTimeout(()=>{
+      document.getElementById('notifier-1').style.display = 'none'
+    }, 2000)
+  }
+})
+</script>
+{% endblock Script %}
+
+
+

@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+
+{% block Content %}
+<div class="heading">
+  <p class="">
+    All employees
+  </p>
+</div>
+
+<table class="table table-striped" >
+  <thead>
+    <th>First Name</th>
+    <th>Middle Name</th>
+    <th>Date of graduation</th>
+    <th>Date of employment</th>
+    <th>Position</th>
+    <th>Salary</th>
+    <th>Employee code</th>
+    <th>Supervisor</th>
+    <th>Duration of employment</th>
+  </thead>
+  <tbody id='table'>
+
+  </tbody>
+</table>
+
+{% endblock Content %}
+
+
+
+{% block Script %}
+<script>
+  function getNumberOfDays(start, end) {
+    const date1 = new Date(start);
+    const date2 = new Date(end);
+
+    // One day in milliseconds
+    const oneDay = 1000 * 60 * 60 * 24;
+
+    // Calculating the time difference between two dates
+    const diffInTime = date2.getTime() - date1.getTime();
+
+    // Calculating the no. of days between two dates
+    const diffInDays = Math.round(diffInTime / oneDay);
+
+    return diffInDays;
+}
+
+  $(document).ready(function(){
+    let db_data = []
+    const get_all_employees = function(){
+      let keys = []
+      $.ajax({
+        type: 'GET',
+        url: '{% url "employee:get_all_employees" %}',
+        success: function(res){
+          const data = JSON.parse(res.data);
+          const sup = JSON.parse(res.supervisors);
+          keys = [...Object.keys(JSON.parse(res.data)[0].fields)]
+          const table = document.querySelector('#table');
+          
+          for(var i=0; i < data.length; i++){
+            const tr = document.createElement('tr');
+            tr.setAttribute('id', i);
+            var html = ''
+            keys.forEach((val, index) => {
+              if(index == 7){
+                const select = document.createElement('select')
+                var option = ''
+                
+                const supervisor = data[i].fields[val].map( el => {
+                  sup.forEach( val2 => {
+                    if(val2.pk == el ){
+                      option +=  `<option>
+                        ${val2.fields['first_name']}
+                      </option>`
+                    }
+                  })
+                })
+                
+                html +=  `<td>
+                 <select class='form-control'>
+                   ${option}
+                 </select>
+                </td>`
+  
+                
+              }else{
+                html +=  `<td>
+                  ${data[i].fields[val]}
+                </td>`
+              }
+  
+              if (index == keys.length - 1){
+                console.log()
+                html +=  `<td> ${getNumberOfDays(data[i].fields['date_of_graduation'], data[i].fields['date_of_employment'])} days </td>`
+              }
+            })
+  
+            tr.innerHTML = html
+            table.append(tr)
+            db_data = data;
+          }
+      
+        },
+        error: function(res){
+          alert('eerr')
+        }
+      })
+    }
+      get_all_employees()
+ 
+    /* get update for every second */
+  })
+</script>
+{% endblock Script %}
