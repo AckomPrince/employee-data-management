@@ -16,7 +16,7 @@ class Supervisor(models.Model):
     
 class Employee(models.Model):
   first_name = models.CharField(max_length=50)
-  middle_name = models.CharField(max_length=50)
+  last_name = models.CharField(max_length=50)
   date_of_graduation = models.DateField()
   date_of_employment = models.DateField(auto_now=True)
   position = models.CharField(max_length=100)
@@ -35,7 +35,7 @@ class Employee(models.Model):
   
   @property
   def create_employee_code(self):
-    code = '{}{}-{}'.format(self.first_name[0].upper(), self.middle_name[0].upper(), str(secrets.randbits(20))[:3])
+    code = '{}{}-{}'.format(self.first_name[0].upper(), self.last_name[0].upper(), str(secrets.randbits(20))[:3])
     return code
   
   @property
@@ -49,12 +49,7 @@ class Employee(models.Model):
     return all_sup
   
   
-  
 
-  
-  
-  
-  
 class Log(models.Model):
   timestamp = models.DateTimeField(auto_now_add=True)
   no_employee_records = models.IntegerField()

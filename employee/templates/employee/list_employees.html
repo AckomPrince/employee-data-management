@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+
+{% block Content %}
+
+    <div class="card card-body">
+        <h3 class="mb-0">All Employees</h3>
+    <table class="table align-items-center" data-sorting-column-index="4">
+        <thead>
+        <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Date of employment</th>
+        <th>Position</th>
+        <th>Actions</th>
+
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for employee in data %}
+        <tr>
+            <td>{{ employee.first_name }}</td>
+            <td>{{ employee.last_name }}</td>
+            <td>{{ employee.date_of_employment }}</td>
+            <td>{{ employee.position }}</td>
+            <td> <a href="{% url 'employee:update_employee'  employee.id%}" class="">Edit</a> |
+                <a href="{% url "employee:delete_employee" employee.id %}" class="text-danger">Remove</a> </td>
+
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+{% endblock Content %}
